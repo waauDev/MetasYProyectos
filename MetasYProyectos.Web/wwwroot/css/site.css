@@ -1,0 +1,182 @@
+:root {
+    --color-primary: #011C6B;
+    --color-primary-light: #0A2B8C;
+    --color-primary-soft: #E8EBF7;
+    --color-bg: #F4F6FB;
+    --color-success: #1FA37E;
+    --color-danger: #D64550;
+    --color-white: #FFFFFF;
+    --radius-lg: 14px;
+    --radius-md: 10px;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    background-color: var(--color-bg);
+    font-family: 'Inter', system-ui, sans-serif;
+    color: #1A1A2E;
+}
+
+.font-display {
+    font-family: 'Sora', system-ui, sans-serif;
+}
+
+/* ── Topbar institucional ─────────────────────────────────── */
+
+.app-topbar {
+    background-color: var(--color-primary);
+    color: var(--color-white);
+    padding: 0.9rem 1.5rem;
+}
+
+    .app-topbar .brand {
+        font-family: 'Sora', sans-serif;
+        font-weight: 600;
+        font-size: 1.15rem;
+        letter-spacing: 0.2px;
+    }
+
+    .app-topbar .brand-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background-color: var(--color-success);
+        display: inline-block;
+        margin-right: 8px;
+    }
+
+/* ── Panel lateral tipo consola ──────────────────────────── */
+
+.console-panel {
+    background-color: var(--color-primary);
+    color: var(--color-white);
+    border-radius: var(--radius-lg);
+    padding: 1.75rem 1.5rem;
+    height: 100%;
+}
+
+    .console-panel h6 {
+        font-family: 'Sora', sans-serif;
+        text-transform: uppercase;
+        font-size: 0.72rem;
+        letter-spacing: 1px;
+        color: #9FB3E8;
+        margin-bottom: 1rem;
+    }
+
+.led-indicator {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 14px;
+    border-radius: 999px;
+    background-color: rgba(255, 255, 255, 0.08);
+    font-size: 0.85rem;
+}
+
+.led-dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+    .led-dot.on {
+        background-color: var(--color-success);
+        box-shadow: 0 0 0 4px rgba(31, 163, 126, 0.25);
+    }
+
+    .led-dot.off {
+        background-color: #5A6FA8;
+    }
+
+.console-meta {
+    margin-top: 1.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+    padding-top: 1.25rem;
+}
+
+    .console-meta dt {
+        font-size: 0.72rem;
+        color: #9FB3E8;
+        text-transform: uppercase;
+        letter-spacing: 0.6px;
+    }
+
+    .console-meta dd {
+        font-size: 0.92rem;
+        margin-bottom: 0.85rem;
+    }
+
+/* ── Card del formulario ─────────────────────────────────── */
+
+.config-card {
+    background-color: var(--color-white);
+    border: none;
+    border-radius: var(--radius-lg);
+    box-shadow: 0 1px 3px rgba(1, 28, 107, 0.06), 0 8px 24px rgba(1, 28, 107, 0.05);
+}
+
+    .config-card .card-header {
+        background-color: transparent;
+        border-bottom: 1px solid #ECEFF7;
+        padding: 1.5rem 1.75rem 1.25rem;
+    }
+
+    .config-card .card-body {
+        padding: 1.75rem;
+    }
+
+.form-label {
+    font-weight: 500;
+    font-size: 0.88rem;
+    color: #34396B;
+}
+
+.form-control, .form-select {
+    border-radius: var(--radius-md);
+    border-color: #DEE3F2;
+    padding: 0.55rem 0.85rem;
+}
+
+    .form-control:focus, .form-select:focus {
+        border-color: var(--color-primary-light);
+        box-shadow: 0 0 0 3px rgba(10, 43, 140, 0.12);
+    }
+
+.btn-primary {
+    background-color: var(--color-primary);
+    border-color: var(--color-primary);
+    font-weight: 500;
+    border-radius: var(--radius-md);
+    padding: 0.6rem 1.4rem;
+}
+
+    .btn-primary:hover, .btn-primary:active {
+        background-color: var(--color-primary-light) !important;
+        border-color: var(--color-primary-light) !important;
+    }
+
+.btn-outline-primary {
+    color: var(--color-primary);
+    border-color: var(--color-primary);
+    border-radius: var(--radius-md);
+    font-weight: 500;
+}
+
+    .btn-outline-primary:hover {
+        background-color: var(--color-primary);
+        border-color: var(--color-primary);
+    }
+
+.section-eyebrow {
+    font-family: 'Sora', sans-serif;
+    text-transform: uppercase;
+    font-size: 0.72rem;
+    letter-spacing: 1px;
+    color: #6E76A8;
+    margin-bottom: 0.25rem;
+}

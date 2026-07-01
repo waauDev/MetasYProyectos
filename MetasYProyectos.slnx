@@ -1,0 +1,7 @@
+<Solution>
+  <Project Path="D:/PruebasWA/DotNet10/MetasYProyectos.Application/MetasYProyectos.Application.csproj" />
+  <Project Path="D:/PruebasWA/DotNet10/MetasYProyectos.Domain/MetasYProyectos.Domain.csproj" />
+  <Project Path="D:/PruebasWA/DotNet10/MetasYProyectos.Infrastructure/MetasYProyectos.Infrastructure.csproj" />
+  <Project Path="D:/PruebasWA/DotNet10/MetasYProyectos.Test/MetasYProyectos.Test.csproj" />
+  <Project Path="D:/PruebasWA/DotNet10/MetasYProyectos.Web/MetasYProyectos.Web.csproj" Id="d2cccc7d-3e51-495a-b2ef-ba6cbb5aa049" />
+</Solution>

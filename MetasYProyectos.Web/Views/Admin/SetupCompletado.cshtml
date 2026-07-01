@@ -1,0 +1,26 @@
+﻿@model string
+@{
+    ViewData["Title"] = "Configuración completada";
+    Layout = "_Layout";
+}
+
+<div class="d-flex justify-content-center align-items-center" style="min-height: 80vh;">
+    <div class="card shadow-sm border-0" style="max-width: 460px; width: 100%;">
+        <div class="card-body p-4 text-center">
+            <i class="bi bi-check-circle-fill display-5 text-success"></i>
+            <h4 class="mt-2">¡Listo!</h4>
+            <p class="text-muted small mb-4">
+                Guarda este código de recuperación en un lugar seguro.
+                <strong>No se volverá a mostrar.</strong>
+            </p>
+
+            <div class="bg-light border rounded p-3 mb-4">
+                <code class="fs-5 fw-bold">@Model</code>
+            </div>
+
+            <a asp-controller="Admin" asp-action="Login" class="btn btn-primary w-100">
+                Ir al inicio de sesión
+            </a>
+        </div>
+    </div>
+</div>

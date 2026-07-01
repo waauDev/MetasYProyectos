@@ -1,0 +1,157 @@
+﻿@model MetasYProyectos.Web.ViewModels.ConfiguracionViewModel
+@{
+    ViewData["Title"] = "Configuración de base de datos";
+}
+
+<div class="container-fluid px-4">
+    <div class="row g-4">
+
+        <!-- Panel lateral consola -->
+        <div class="col-lg-4">
+            <div class="console-panel">
+                <h6>Estado de conexión</h6>
+
+                @if (Model.ConfiguracionGuardada)
+                {
+                    <div class="led-indicator">
+                        <span class="led-dot on"></span>
+                        Configuración activa
+                    </div>
+                }
+                else
+                {
+                    <div class="led-indicator">
+                        <span class="led-dot off"></span>
+                        Sin configurar
+                    </div>
+                }
+
+                <div class="console-meta">
+                    <dl class="mb-0">
+                        <dt>Motor</dt>
+                        <dd>Oracle Database</dd>
+
+                        <dt>Versiones soportadas</dt>
+                        <dd>9 · 10 · 11 · 19 · 21</dd>
+
+                        <dt>Almacenamiento</dt>
+                        <dd>Archivo cifrado local</dd>
+
+                        <dt>Cifrado</dt>
+                        <dd>ASP.NET Data Protection</dd>
+                    </dl>
+                </div>
+            </div>
+        </div>
+
+        <!-- Formulario -->
+        <div class="col-lg-8">
+
+            @if (TempData["Ok"] != null)
+            {
+                <div class="alert alert-success d-flex align-items-center gap-2" role="alert">
+                    <i class="bi bi-check-circle-fill"></i>
+                    <div>@TempData["Ok"]</div>
+                </div>
+            }
+            @if (TempData["Error"] != null)
+            {
+                <div class="alert alert-danger d-flex align-items-center gap-2" role="alert">
+                    <i class="bi bi-exclamation-triangle-fill"></i>
+                    <div>@TempData["Error"]</div>
+                </div>
+            }
+
+            <div class="config-card card">
+                <div class="card-header">
+                    <div class="section-eyebrow">Configuración</div>
+                    <h5 class="font-display mb-0">Conexión a base de datos</h5>
+                </div>
+
+                <div class="card-body">
+                    <form asp-action="Guardar" method="post">
+                        @Html.AntiForgeryToken()
+
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label asp-for="Version" class="form-label"></label>
+                                <select asp-for="Version" class="form-select"
+                                        asp-items="Html.GetEnumSelectList<MetasYProyectos.Domain.Enums.VersionOracle>()">
+                                </select>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label asp-for="TipoConexion" class="form-label"></label>
+                                <select asp-for="TipoConexion" class="form-select"
+                                        asp-items="Html.GetEnumSelectList<MetasYProyectos.Domain.Enums.TipoConexion>()">
+                                </select>
+                            </div>
+
+                            <div class="col-md-8">
+                                <label asp-for="Servidor" class="form-label"></label>
+                                <input asp-for="Servidor" class="form-control" placeholder="192.168.1.100" />
+                                <span asp-validation-for="Servidor" class="text-danger small"></span>
+                            </div>
+
+                            <div class="col-md-4">
+                                <label asp-for="Puerto" class="form-label"></label>
+                                <input asp-for="Puerto" class="form-control" placeholder="1521" />
+                            </div>
+
+                            <div class="col-12">
+                                <label asp-for="Servicio" class="form-label"></label>
+                                <input asp-for="Servicio" class="form-control" placeholder="ORCL / XEPDB1" />
+                                <span asp-validation-for="Servicio" class="text-danger small"></span>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label asp-for="Usuario" class="form-label"></label>
+                                <input asp-for="Usuario" class="form-control" autocomplete="username" />
+                                <span asp-validation-for="Usuario" class="text-danger small"></span>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label asp-for="Password" class="form-label"></label>
+                                <div class="input-group">
+                                    <input asp-for="Password" type="password" class="form-control" id="pwd" autocomplete="current-password" />
+                                    <button class="btn btn-outline-primary" type="button" onclick="togglePwd()">
+                                        <i class="bi bi-eye" id="pwdIcon"></i>
+                                    </button>
+                                </div>
+                                <span asp-validation-for="Password" class="text-danger small"></span>
+                            </div>
+                        </div>
+
+                        <div class="d-flex gap-2 mt-4">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="bi bi-save me-1"></i> Guardar
+                            </button>
+                            <button type="button" class="btn btn-outline-primary" onclick="probarConexion()">
+                                <i class="bi bi-plug me-1"></i> Probar conexión
+                            </button>
+                            <a asp-controller="Home" asp-action="Index" class="btn btn-link">&larr; Volver</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function togglePwd() {
+            const input = document.getElementById('pwd');
+            const icon = document.getElementById('pwdIcon');
+            const show = input.type === 'password';
+            input.type = show ? 'text' : 'password';
+            icon.className = show ? 'bi bi-eye-slash' : 'bi bi-eye';
+        }
+
+        function probarConexion() {
+            const form = document.querySelector('form');
+            form.action = '@Url.Action("ProbarConexion")';
+            form.submit();
+        }
+    </script>
+}
