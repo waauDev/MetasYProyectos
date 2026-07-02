@@ -23,7 +23,7 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
     {
         options.LoginPath = "/admin/login";
         options.AccessDeniedPath = "/admin/login";
-        options.ExpireTimeSpan = TimeSpan.FromSeconds(2);
+        options.ExpireTimeSpan = TimeSpan.FromHours(2);
     });
 
 
@@ -40,10 +40,9 @@ app.UseStaticFiles();
 app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
-app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Login}/{action=Index}/{id?}");
 
 app.Run();
