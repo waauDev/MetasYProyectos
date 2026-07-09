@@ -1,4 +1,4 @@
-﻿using MediatR;
+﻿using MetasYProyectos.Application.Common.Mediator;
 using MetasYProyectos.Domain.Autenticacion;
 using System;
 using System.Collections.Generic;

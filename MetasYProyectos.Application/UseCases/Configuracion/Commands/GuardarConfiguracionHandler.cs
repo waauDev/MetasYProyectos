@@ -1,5 +1,5 @@
 ﻿using FluentValidation;
-using MediatR;
+using MetasYProyectos.Application.Common.Mediator;
 using MetasYProyectos.Application.Interfaces;
 using System;
 using System.Collections.Generic;
