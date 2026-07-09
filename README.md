@@ -1,75 +1,40 @@
 # MetasYProyectos
 
-Aplicacion web ASP.NET Core MVC en .NET 10 para administrar la configuracion de conexion a una base de datos Oracle. El proyecto esta organizado con Clean Architecture y separa dominio, casos de uso, infraestructura y presentacion web.
+Aplicacion web ASP.NET Core MVC desarrollada en .NET 10 para gestionar la configuracion de conexion a una base de datos Oracle y la administracion inicial del acceso al sistema.
 
-## Estado actual
+El proyecto esta organizado con una arquitectura por capas:
 
-- Solucion en formato `.slnx`.
-- Interfaz web MVC con autenticacion por cookie para el administrador.
-- Flujo inicial para crear clave de administrador y codigo de recuperacion.
-- Pantalla protegida para configurar conexion Oracle.
-- Prueba de conexion Oracle desde la UI.
-- Persistencia local cifrada para la configuracion de base de datos.
-- Persistencia local de credenciales administrativas con hash PBKDF2 y salt.
-- Proyecto de pruebas creado, aun sin pruebas reales.
+- `MetasYProyectos.Domain`: entidades, validaciones y contratos del dominio.
+- `MetasYProyectos.Application`: casos de uso, DTOs, validadores y logica de aplicacion.
+- `MetasYProyectos.Infrastructure`: persistencia local cifrada, servicios de infraestructura y conexion Oracle.
+- `MetasYProyectos.Web`: aplicacion MVC, controladores, vistas y recursos estaticos.
+- `MetasYProyectos.Test`: proyecto reservado para pruebas.
 
-## Stack
+## Estado del proyecto
 
-- .NET 10 (`net10.0`)
-- ASP.NET Core MVC
-- MediatR para CQRS
-- FluentValidation
-- Oracle.ManagedDataAccess.Core
-- ASP.NET Core Data Protection
+Este proyecto se encuentra en construccion.
 
-## Estructura
+Actualmente incluye una base funcional para:
 
-```text
-MetasYProyectos.Domain/
-  Entities/                 Entidades y validaciones de dominio
-  Enums/                    VersionOracle, TipoConexion
-  Exceptions/               Excepciones del dominio
-  Interfaces/               Contratos del dominio
+- Configuracion de conexion Oracle desde interfaz web.
+- Prueba de conexion contra Oracle.
+- Persistencia local cifrada de la configuracion.
+- Autenticacion administrativa local.
+- Estructura inicial de pruebas, pendiente de ampliar.
 
-MetasYProyectos.Application/
-  DTOs/                     DTOs de configuracion
-  Interfaces/               Servicios usados por los casos de uso
-  Mappings/                 Mapeos entre dominio y DTOs
-  UseCases/Configuracion/   Commands y Queries con MediatR
-  Validators/               Validaciones con FluentValidation
+Al estar en desarrollo, la estructura, pantallas, flujos y reglas de negocio pueden cambiar.
 
-MetasYProyectos.Infrastructure/
-  Oracle/                   Verificacion de conexion Oracle
-  Persistence/              Repositorio de configuracion cifrada
-  Services/                 Servicio de configuracion
+## Requisitos
 
-MetasYProyectos.Web/
-  Controllers/              Admin, Configuracion, Home, MetasProyectos
-  Services/                 Autenticacion administrativa local
-  ViewModels/               Modelos de vista MVC
-  Views/                    Vistas Razor
-  wwwroot/                  Recursos estaticos
-  Config/                   Archivo local bd.config
-  App_Data/                 Archivo local admin.json
-  DataProtection-Keys/      Llaves de Data Protection
-
-MetasYProyectos.Test/
-  Proyecto de pruebas creado, sin cobertura implementada.
-```
-
-## Dependencias entre proyectos
-
-```text
-Domain
-Application     -> Domain
-Infrastructure  -> Application, Domain
-Web             -> Application, Infrastructure
-Test            -> Application, Domain
-```
+- .NET 10 SDK para desarrollo.
+- .NET 10 Hosting Bundle en el servidor IIS.
+- IIS habilitado con el modulo ASP.NET Core.
+- Acceso de red desde el servidor hacia la base de datos Oracle.
+- Permisos de escritura para la aplicacion en las carpetas locales donde guarda configuracion, credenciales y llaves de proteccion de datos.
 
 ## Ejecucion local
 
-Restaurar, compilar y ejecutar:
+Desde la raiz del repositorio:
 
 ```powershell
 dotnet restore
@@ -77,89 +42,105 @@ dotnet build
 dotnet run --project MetasYProyectos.Web
 ```
 
-Modo watch:
-
-```powershell
-dotnet watch run --project MetasYProyectos.Web
-```
-
-Pruebas:
+Para ejecutar pruebas:
 
 ```powershell
 dotnet test
 ```
 
-> Nota: el proyecto `MetasYProyectos.Test` existe, pero todavia no contiene pruebas funcionales.
+> Nota: el proyecto de pruebas existe, pero aun esta pendiente completar cobertura funcional.
 
-## Flujo de uso
+## Despliegue en IIS
 
-1. Abrir la aplicacion web.
-2. Entrar a `/admin`.
-3. Si no existe administrador, crear la clave inicial.
-4. Guardar el codigo de recuperacion generado.
-5. Iniciar sesion.
-6. Ir a la pantalla de configuracion de base de datos.
-7. Registrar servidor, puerto, servicio/SID/TNS, usuario, password, version de Oracle y tipo de conexion.
-8. Probar la conexion o guardar la configuracion.
+### 1. Preparar el servidor
 
-La ruta por defecto actual es:
+1. Instalar IIS en Windows Server o Windows.
+2. Instalar el .NET 10 Hosting Bundle correspondiente al runtime usado por la aplicacion.
+3. Reiniciar IIS despues de instalar el Hosting Bundle:
 
-```text
-{controller=Home}/{action=Index}/{id?}
+```powershell
+iisreset
 ```
 
-La pantalla de configuracion esta protegida con `[Authorize]`.
+### 2. Publicar la aplicacion
 
-## Persistencia local
+Desde la raiz del repositorio, ejecutar:
 
-La configuracion de Oracle se guarda en:
-
-```text
-MetasYProyectos.Web/Config/bd.config
+```powershell
+dotnet publish MetasYProyectos.Web -c Release -o .\publish
 ```
 
-El contenido se serializa como JSON y se cifra con ASP.NET Core Data Protection. Las llaves se persisten en:
+Esto genera los archivos listos para IIS en la carpeta:
 
 ```text
-MetasYProyectos.Web/DataProtection-Keys/
+publish/
 ```
 
-Las credenciales del administrador se guardan en:
+### 3. Copiar archivos al servidor
+
+Copiar el contenido de la carpeta `publish` a una ruta del servidor, por ejemplo:
 
 ```text
-MetasYProyectos.Web/App_Data/admin.json
+C:\inetpub\wwwroot\MetasYProyectos
 ```
 
-El password y el codigo de recuperacion se almacenan como hash PBKDF2 con salt.
+No copiar la carpeta `publish` como carpeta contenedora si se desea que esa ruta sea la raiz del sitio; copiar su contenido.
 
-## Configuracion Oracle
+### 4. Crear el sitio en IIS
 
-La cadena de conexion se construye desde los datos capturados en la UI, no desde `appsettings.json`. Los modos soportados por el dominio son:
+1. Abrir **Internet Information Services (IIS) Manager**.
+2. Crear un nuevo sitio web o una aplicacion dentro de un sitio existente.
+3. Seleccionar como ruta fisica la carpeta donde se copiaron los archivos publicados.
+4. Configurar el puerto, host name o binding requerido.
+5. Asignar un Application Pool propio para la aplicacion.
 
-- `ServiceName`
-- `SID`
-- `TNS`
+### 5. Configurar el Application Pool
 
-La version de Oracle se modela con el enum `VersionOracle`.
+En el Application Pool de la aplicacion:
 
-## Seguridad y datos sensibles
+1. Establecer **.NET CLR Version** en `No Managed Code`.
+2. Usar modo integrado.
+3. Definir la identidad que ejecutara la aplicacion.
 
-- No se debe versionar `Config/bd.config`, `App_Data/admin.json` ni `DataProtection-Keys/`.
-- La UI usa ocho caracteres bullet como mascara de password.
-- Al guardar o probar conexion con la mascara, los handlers recuperan el password real ya almacenado.
-- La sesion administrativa usa cookies con expiracion de 2 horas.
+### 6. Permisos de carpeta
 
-## Notas de arquitectura
+Dar permisos de lectura y escritura a la identidad del Application Pool sobre la carpeta de la aplicacion publicada.
 
-- `ConfiguracionBD` usa constructor privado y fabrica estatica `Crear(...)` para centralizar validaciones de dominio.
-- Los handlers capturan excepciones y devuelven objetos de resultado con estado y mensaje.
-- `ConfiguracionRepository` esta registrado como singleton.
-- `IOracleConnectionChecker` y `IConfiguracionService` estan registrados como scoped.
-- El lenguaje del dominio y de la UI esta en espanol.
+Esto es necesario porque la aplicacion puede crear o actualizar archivos locales para:
 
-## Pendientes visibles
+- Configuracion cifrada.
+- Credenciales administrativas.
+- Llaves de Data Protection.
 
-- Agregar pruebas unitarias para dominio, validadores y handlers.
-- Revisar si `HomeController` y `MetasProyectosController` seran parte definitiva del flujo.
-- Excluir archivos locales sensibles si todavia aparecen en el arbol de trabajo.
-- Normalizar acentos/mensajes en algunos textos de UI y errores.
+Si el Application Pool se llama `MetasYProyectos`, la identidad normalmente sera:
+
+```text
+IIS AppPool\MetasYProyectos
+```
+
+### 7. Validar el archivo web.config
+
+La publicacion debe generar un archivo `web.config`. Verificar que exista en la raiz publicada, ya que IIS lo utiliza para iniciar la aplicacion ASP.NET Core.
+
+### 8. Probar el sitio
+
+1. Abrir la URL configurada en IIS.
+2. Completar el flujo inicial de administracion si aplica.
+3. Configurar los datos de conexion Oracle.
+4. Ejecutar la prueba de conexion desde la interfaz.
+
+### 9. Revisar errores
+
+Si el sitio no inicia:
+
+1. Revisar el Visor de eventos de Windows.
+2. Confirmar que el Hosting Bundle instalado corresponde a .NET 10.
+3. Confirmar permisos de escritura en la carpeta publicada.
+4. Validar que el servidor tenga conectividad hacia Oracle.
+5. Revisar que `web.config` exista y que los archivos publicados esten completos.
+
+## Archivos sensibles
+
+No se deben versionar ni compartir archivos generados localmente con configuracion, credenciales o llaves de cifrado.
+
+En despliegues productivos, estos archivos deben mantenerse protegidos y con permisos limitados a la identidad que ejecuta la aplicacion.

@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿
+using MetasYProyectos.Application.Common.Mediator;
 using MetasYProyectos.Application.UseCases.Configuracion.Commands;
 using MetasYProyectos.Application.UseCases.Configuracion.Queries;
 using MetasYProyectos.Web.ViewModels;

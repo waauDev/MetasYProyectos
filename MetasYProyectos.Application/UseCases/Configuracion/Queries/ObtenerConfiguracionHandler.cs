@@ -1,4 +1,4 @@
-﻿using MediatR;
+﻿using MetasYProyectos.Application.Common.Mediator;
 using MetasYProyectos.Application.DTOs;
 using MetasYProyectos.Application.Interfaces;
 using MetasYProyectos.Application.Mappings;

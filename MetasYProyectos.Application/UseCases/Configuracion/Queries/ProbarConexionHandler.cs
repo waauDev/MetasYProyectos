@@ -1,5 +1,5 @@
 ﻿
-using MediatR;
+using MetasYProyectos.Application.Common.Mediator;
 using MetasYProyectos.Application.Interfaces;
 
 namespace MetasYProyectos.Application.UseCases.Configuracion.Queries

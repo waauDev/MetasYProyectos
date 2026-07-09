@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿
+using MetasYProyectos.Application.Common.Mediator;
 using MetasYProyectos.Application.DTOs;
 using System;
 using System.Collections.Generic;
