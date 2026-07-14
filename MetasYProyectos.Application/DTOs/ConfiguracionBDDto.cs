@@ -8,6 +8,7 @@ namespace MetasYProyectos.Application.DTOs
 {
     public sealed record ConfiguracionBDDto
     {
+        public string Nombre { get; set; } = string.Empty;
         public string Servidor  { get; set; } = string.Empty;
         public string Puerto    { get; set; } = "1521";
         public string Servicio  { get; set; } = string.Empty;

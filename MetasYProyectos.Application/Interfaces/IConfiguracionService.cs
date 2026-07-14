@@ -1,15 +1,14 @@
 ﻿using MetasYProyectos.Application.DTOs;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace MetasYProyectos.Application.Interfaces
 {
-   public interface IConfiguracionService
+    public interface IConfiguracionService
     {
         void Guardar(ConfiguracionBDDto dto);
-        ConfiguracionBDDto? Obtener();
-        bool Existe();
+        ConfiguracionBDDto? ObtenerPorNombre(string nombre);
+        List<ConfiguracionBDDto> ObtenerTodas();
+        void Eliminar(string nombre);
+        bool ExisteAlguna();
         Task<(bool ok, string msg)> ProbarConexionAsync(
             ConfiguracionBDDto dto,
             CancellationToken ct = default

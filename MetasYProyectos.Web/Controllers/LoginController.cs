@@ -1,23 +1,36 @@
-﻿using MetasYProyectos.Web.Models;
+﻿using MetasYProyectos.Application.Interfaces;
+using MetasYProyectos.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MetasYProyectos.Web.Controllers
 {
     public class LoginController : Controller
     {
+        private readonly IConfiguracionService _configuracionService;
+
+        public LoginController(IConfiguracionService configuracionService)
+        {
+            _configuracionService = configuracionService;
+        }
+
         [HttpGet]
         public IActionResult Index()
         {
-            ViewBag.BasesDeDatos = new List<string> { "MetasYProyectos_Prod", "MetasYProyectos_Test" };
+            CargarBasesDeDatos();
             return View(new LoginViewModel());
         }
 
         [HttpPost]
         public IActionResult Index(LoginViewModel vm)
         {
-            ViewBag.BasesDeDatos = new List<string> { "MetasYProyectos_Prod", "MetasYProyectos_Test" };
+            CargarBasesDeDatos();
             return View(vm);
         }
-       
+
+        private void CargarBasesDeDatos()
+        {
+            var configs = _configuracionService.ObtenerTodas();
+            ViewBag.BasesDeDatos = configs.Select(c => c.Nombre).ToList();
+        }
     }
 }

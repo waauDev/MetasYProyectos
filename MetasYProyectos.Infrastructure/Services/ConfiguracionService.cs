@@ -2,13 +2,10 @@
 using MetasYProyectos.Application.Interfaces;
 using MetasYProyectos.Application.Mappings;
 using MetasYProyectos.Domain.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace MetasYProyectos.Infrastructure.Services
 {
-    public sealed class ConfiguracionService:IConfiguracionService
+    public sealed class ConfiguracionService : IConfiguracionService
     {
         private readonly IConfiguracionRepository _repositorio;
         private readonly IOracleConnectionChecker _connectionChecker;
@@ -20,8 +17,7 @@ namespace MetasYProyectos.Infrastructure.Services
             _connectionChecker = connectionChecker;
         }
 
-        public bool Existe() => _repositorio.Existe();
-        
+        public bool ExisteAlguna() => _repositorio.ExisteAlguna();
 
         public void Guardar(ConfiguracionBDDto dto)
         {
@@ -29,13 +25,22 @@ namespace MetasYProyectos.Infrastructure.Services
             _repositorio.Guardar(entidad);
         }
 
-        public ConfiguracionBDDto? Obtener()
+        public ConfiguracionBDDto? ObtenerPorNombre(string nombre)
         {
-            var entidad = _repositorio.Obtener();
+            var entidad = _repositorio.ObtenerPorNombre(nombre);
             return entidad is null
                 ? null
                 : ConfiguracionMapper.ToDto(entidad, ocultarPassword: true);
         }
+
+        public List<ConfiguracionBDDto> ObtenerTodas()
+        {
+            return _repositorio.ObtenerTodas()
+                .Select(e => ConfiguracionMapper.ToDto(e, ocultarPassword: true))
+                .ToList();
+        }
+
+        public void Eliminar(string nombre) => _repositorio.Eliminar(nombre);
 
         public async Task<(bool ok, string msg)> ProbarConexionAsync(ConfiguracionBDDto dto, CancellationToken ct = default)
         {

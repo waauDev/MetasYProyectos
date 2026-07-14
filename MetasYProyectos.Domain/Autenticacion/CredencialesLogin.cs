@@ -4,7 +4,7 @@ using System.Text;
 
 namespace MetasYProyectos.Domain.Autenticacion
 {
-    public record CredencialesLogin(string Usuario, string password, string BaseDatos, string vigencia);
+    public record CredencialesLogin(string Usuario, string password, string vigencia, string BaseDatos);
 
 
 }

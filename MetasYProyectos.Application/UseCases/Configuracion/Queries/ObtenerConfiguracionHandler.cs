@@ -1,27 +1,22 @@
 ﻿using MetasYProyectos.Application.Common.Mediator;
 using MetasYProyectos.Application.DTOs;
 using MetasYProyectos.Application.Interfaces;
-using MetasYProyectos.Application.Mappings;
-using MetasYProyectos.Application.Validators;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace MetasYProyectos.Application.UseCases.Configuracion.Queries
 {
-    public sealed class ObtenerConfiguracionHandler: IRequestHandler<ObtenerConfiguracionQuery, ConfiguracionBDDto?>
+    public sealed class ObtenerConfiguracionHandler : IRequestHandler<ObtenerConfiguracionQuery, List<ConfiguracionBDDto>>
     {
         private readonly IConfiguracionService _servicio;
 
         public ObtenerConfiguracionHandler(IConfiguracionService servicio)
-            =>_servicio= servicio;
+            => _servicio = servicio;
 
-        public Task<ConfiguracionBDDto?> Handle(
+        public Task<List<ConfiguracionBDDto>> Handle(
             ObtenerConfiguracionQuery query,
             CancellationToken cancellationToken)
         {
-            var dto = _servicio.Obtener();
-            return Task.FromResult(dto);
+            var lista = _servicio.ObtenerTodas();
+            return Task.FromResult(lista);
         }
     }
 }

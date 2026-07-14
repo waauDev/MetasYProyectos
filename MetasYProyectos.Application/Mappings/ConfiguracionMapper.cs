@@ -10,6 +10,7 @@ namespace MetasYProyectos.Application.Mappings
     {
         public static ConfiguracionBD ToEntity(ConfiguracionBDDto dto)
             => ConfiguracionBD.Crear(
+                    dto.Nombre,
                     dto.Servidor,
                     dto.Puerto,
                     dto.Servicio,
@@ -25,6 +26,7 @@ namespace MetasYProyectos.Application.Mappings
             bool ocultarPassword = false)
             => new()
             {
+                Nombre = entidad.Nombre,
                 Servidor = entidad.Servidor,
                 Puerto = entidad.Puerto,
                 Servicio = entidad.Servicio,

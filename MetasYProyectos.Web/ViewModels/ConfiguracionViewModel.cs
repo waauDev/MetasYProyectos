@@ -11,6 +11,10 @@ namespace MetasYProyectos.Web.ViewModels;
 /// </summary>
 public sealed class ConfiguracionViewModel
 {
+    [Required(ErrorMessage = "El nombre es obligatorio.")]
+    [Display(Name = "Nombre")]
+    public string Nombre { get; set; } = string.Empty;
+
     [Required(ErrorMessage = "El servidor es obligatorio.")]
     [Display(Name = "Servidor / Host")]
     public string Servidor { get; set; } = string.Empty;
@@ -45,6 +49,7 @@ public sealed class ConfiguracionViewModel
 
     public ConfiguracionBDDto ToDto() => new()
     {
+        Nombre = Nombre,
         Servidor = Servidor,
         Puerto = Puerto,
         Servicio = Servicio,
@@ -56,6 +61,7 @@ public sealed class ConfiguracionViewModel
 
     public static ConfiguracionViewModel FromDto(ConfiguracionBDDto dto) => new()
     {
+        Nombre = dto.Nombre,
         Servidor = dto.Servidor,
         Puerto = dto.Puerto,
         Servicio = dto.Servicio,
