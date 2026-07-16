@@ -15,9 +15,9 @@ namespace MetasYProyectos.Application.UseCases.Configuracion.Queries
             {
                 var dto = query.Datos;
 
-                if(dto.Password== "••••••••" && _servicio.Existe())
+                if(dto.Password== "••••••••")
                 {
-                    var actual = _servicio.Obtener();
+                    var actual = _servicio.ObtenerPorNombre(dto.Nombre);
                     if (actual is not null)
                         dto = dto with { Password = actual.Password };
                 }

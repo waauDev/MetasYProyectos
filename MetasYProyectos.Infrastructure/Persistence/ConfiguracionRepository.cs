@@ -3,23 +3,20 @@ using MetasYProyectos.Domain.Enums;
 using MetasYProyectos.Domain.Interfaces;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.Extensions.Hosting;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Text.Json;
 
 namespace MetasYProyectos.Infrastructure.Persistence
 {
-    public sealed  class ConfiguracionRepository:IConfiguracionRepository
+    public sealed class ConfiguracionRepository : IConfiguracionRepository
     {
         private readonly IDataProtector _protector;
         private readonly string _rutaArchivo;
 
         private const string Proposito = "MetasyProyectos.ConfiguracionBd.v1";
+
         public ConfiguracionRepository(
             IDataProtectionProvider dataProtectionProvider,
-            IHostEnvironment env
-            )
+            IHostEnvironment env)
         {
             _protector = dataProtectionProvider.CreateProtector(Proposito);
 
@@ -27,13 +24,18 @@ namespace MetasYProyectos.Infrastructure.Persistence
             Directory.CreateDirectory(carpetaConfig);
 
             _rutaArchivo = Path.Combine(carpetaConfig, "bd.config");
-
         }
 
         public void Guardar(ConfiguracionBD configuracion)
         {
+            var lista = CargarTodas();
+
+            var existente = lista.FindIndex(c =>
+                string.Equals(c.Nombre, configuracion.Nombre, StringComparison.OrdinalIgnoreCase));
+
             var datos = new ConfiguracionPersistida
             {
+                Nombre = configuracion.Nombre,
                 Servidor = configuracion.Servidor,
                 Puerto = configuracion.Puerto,
                 Servicio = configuracion.Servicio,
@@ -43,45 +45,77 @@ namespace MetasYProyectos.Infrastructure.Persistence
                 TipoConexion = (int)configuracion.TipoConexion
             };
 
-            var json = JsonSerializer.Serialize(datos);
-            var encriptado = _protector.Protect(json);
+            if (existente >= 0)
+                lista[existente] = datos;
+            else
+                lista.Add(datos);
 
-            File.WriteAllText(_rutaArchivo, encriptado);
+            GuardarLista(lista);
         }
 
-        public ConfiguracionBD? Obtener()
+        public ConfiguracionBD? ObtenerPorNombre(string nombre)
         {
-            if (!Existe())
-                return null;
+            var lista = CargarTodas();
+            var datos = lista.Find(c =>
+                string.Equals(c.Nombre, nombre, StringComparison.OrdinalIgnoreCase));
+
+            return datos is null ? null : AEntidad(datos);
+        }
+
+        public List<ConfiguracionBD> ObtenerTodas()
+        {
+            return CargarTodas().Select(AEntidad).ToList();
+        }
+
+        public void Eliminar(string nombre)
+        {
+            var lista = CargarTodas();
+            lista.RemoveAll(c =>
+                string.Equals(c.Nombre, nombre, StringComparison.OrdinalIgnoreCase));
+            GuardarLista(lista);
+        }
+
+        public bool ExisteAlguna() => CargarTodas().Count > 0;
+
+        private List<ConfiguracionPersistida> CargarTodas()
+        {
+            if (!File.Exists(_rutaArchivo))
+                return new List<ConfiguracionPersistida>();
+
             try
             {
                 var encriptado = File.ReadAllText(_rutaArchivo);
                 var json = _protector.Unprotect(encriptado);
-                var datos = JsonSerializer.Deserialize<ConfiguracionPersistida>(json);
-
-                if (datos is null)
-                    return null;
-
-                return ConfiguracionBD.Crear(
-                    datos.Servidor,
-                    datos.Puerto,
-                    datos.Servicio,
-                    datos.Usuario,
-                    datos.Password,
-                    (VersionOracle)datos.Version,
-                    (TipoConexion)datos.TipoConexion
-                    );
-                    
-            }catch
+                return JsonSerializer.Deserialize<List<ConfiguracionPersistida>>(json)
+                       ?? new List<ConfiguracionPersistida>();
+            }
+            catch
             {
-                return null;
+                return new List<ConfiguracionPersistida>();
             }
         }
 
-        public bool Existe() => File.Exists(_rutaArchivo);
+        private void GuardarLista(List<ConfiguracionPersistida> lista)
+        {
+            var json = JsonSerializer.Serialize(lista);
+            var encriptado = _protector.Protect(json);
+            File.WriteAllText(_rutaArchivo, encriptado);
+        }
+
+        private static ConfiguracionBD AEntidad(ConfiguracionPersistida datos)
+            => ConfiguracionBD.Crear(
+                datos.Nombre,
+                datos.Servidor,
+                datos.Puerto,
+                datos.Servicio,
+                datos.Usuario,
+                datos.Password,
+                (VersionOracle)datos.Version,
+                (TipoConexion)datos.TipoConexion);
 
         private sealed class ConfiguracionPersistida
         {
+            public string Nombre { get; set; } = string.Empty;
             public string Servidor { get; set; } = string.Empty;
             public string Puerto { get; set; } = string.Empty;
             public string Servicio { get; set; } = string.Empty;

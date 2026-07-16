@@ -27,6 +27,18 @@ namespace MetasYProyectos.Application
                 services.AddScoped(handler.Interface, handler.Implementation);
             }
 
+            var validatorTypes = assembly.GetTypes()
+                .Where(t => !t.IsAbstract && !t.IsInterface && t.BaseType != null
+                    && t.BaseType.IsGenericType
+                    && t.BaseType.GetGenericTypeDefinition() == typeof(AbstractValidator<>));
+
+            foreach (var validator in validatorTypes)
+            {
+                var genericArg = validator.BaseType!.GetGenericArguments()[0];
+                var serviceType = typeof(IValidator<>).MakeGenericType(genericArg);
+                services.AddScoped(serviceType, validator);
+            }
+
             return services;
                         
         }

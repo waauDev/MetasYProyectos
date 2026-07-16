@@ -5,6 +5,7 @@ namespace MetasYProyectos.Domain.Entities;
 
 public class ConfiguracionBD
 {
+    public string Nombre { get; private set; } = string.Empty;
     public string Servidor { get; private set; } = string.Empty;
     public string Puerto { get; private set; } = "1521";
     public string Servicio { get; private set; } = string.Empty;
@@ -17,6 +18,7 @@ public class ConfiguracionBD
     private ConfiguracionBD() { }
 
     public static ConfiguracionBD Crear(
+        string nombre,
         string servidor,
         string puerto,
         string servicio,
@@ -26,6 +28,10 @@ public class ConfiguracionBD
         TipoConexion tipoConexion
         )
     {
+        if (string.IsNullOrWhiteSpace(nombre))
+            throw new ConfiguracionInvalidaException(
+                nameof(Nombre),
+                "El nombre de la configuración es obligatorio");
 
         if (string.IsNullOrWhiteSpace(servidor))
             throw new ConfiguracionInvalidaException(
@@ -60,6 +66,7 @@ public class ConfiguracionBD
 
         return new ConfiguracionBD
         {
+            Nombre = nombre.Trim(),
             Servidor = servidor.Trim(),
             Puerto = string.IsNullOrWhiteSpace(puerto) ? "1521" : puerto.Trim(),
             Servicio = servicio.Trim(),
@@ -75,13 +82,13 @@ public class ConfiguracionBD
     public bool usaTNS() => TipoConexion == TipoConexion.TNS;
 
     public String DescripcionSegura()
-        => $"Servidor={Servidor}:{Puerto}|" +
+        => $"Nombre={Nombre}|Servidor={Servidor}:{Puerto}|" +
         $"Tipo={TipoConexion}| " +
         $"Oracle {(int)Version}|" +
         $"Usuario= {Usuario}";
 
     public ConfiguracionBD ConNuevoPassword(string nuevoPassword)
-        =>Crear(Servidor,Puerto, Servicio, Usuario, nuevoPassword,Version,TipoConexion);
+        =>Crear(Nombre, Servidor,Puerto, Servicio, Usuario, nuevoPassword,Version,TipoConexion);
 }
         
 

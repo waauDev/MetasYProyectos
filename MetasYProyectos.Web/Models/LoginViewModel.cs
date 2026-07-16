@@ -7,16 +7,13 @@ namespace MetasYProyectos.Web.Models
         [Required(ErrorMessage = "El usuario es obligatorio")]
         public string Usuario { get; set; } = string.Empty;
 
-        [Required(ErrorMessage = "La contraseña es obligatorio")]
+        [Required(ErrorMessage = "La contraseña es obligatoria")]
         public string Contrasena { get; set; } = string.Empty;
 
-        [Required(ErrorMessage = "La base de datos es obligatorio")]
+        [Required(ErrorMessage = "La base de datos es obligatoria")]
         public string BaseDatos { get; set; } = string.Empty;
 
         [Required(ErrorMessage = "El campo vigencia es obligatorio")]
         public string Vigencia { get; set; } = string.Empty;
-
-
-
     }
 }

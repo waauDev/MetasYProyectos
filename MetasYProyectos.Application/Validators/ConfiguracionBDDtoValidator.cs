@@ -10,6 +10,12 @@ namespace MetasYProyectos.Application.Validators
     {
         public ConfiguracionBDDtoValidator()
         {
+            RuleFor(x => x.Nombre)
+                .NotEmpty()
+                    .WithMessage("El nombre de la configuración es obligatorio")
+                .MaximumLength(100)
+                    .WithMessage("El nombre no puede superar los 100 caracteres");
+
             RuleFor(x => x.Servidor)
                 .NotEmpty()
                     .WithMessage("El servidor o host es obligatorio")
