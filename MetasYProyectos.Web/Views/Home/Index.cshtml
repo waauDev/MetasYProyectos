@@ -9,5 +9,9 @@
     <div class="d-flex justify-content-center gap-3">
         <a asp-controller="MetasProyectos" asp-action="Index"
            class="btn btn-primary btn-lg">Metas y Proyectos</a>
+        <form asp-controller="Login" asp-action="CerrarSesion" method="post" class="d-inline">
+            @Html.AntiForgeryToken()
+            <button type="submit" class="btn btn-outline-secondary btn-lg">Cerrar sesi&oacute;n</button>
+        </form>
     </div>
 </div>

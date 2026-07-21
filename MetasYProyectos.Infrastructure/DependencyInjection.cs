@@ -16,6 +16,7 @@ namespace MetasYProyectos.Infrastructure
             this IServiceCollection services)
         {
             services.AddSingleton<IConfiguracionRepository, ConfiguracionRepository>();
+            services.AddScoped<IPasoValidacionLogin, ValidarEsquemaExisteStep>();
             services.AddScoped<IPasoValidacionLogin, ValidarUsuarioExisteStep>();
             services.AddScoped<IPasoValidacionLogin, ValidarAplicativoStep>();
             services.AddScoped<IPasoValidacionLogin, ValidarUsuarioActivoStep>();

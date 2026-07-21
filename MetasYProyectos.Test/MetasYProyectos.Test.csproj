@@ -1,14 +1,22 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <ItemGroup>
-    <ProjectReference Include="..\MetasYProyectos.Application\MetasYProyectos.Application.csproj" />
-    <ProjectReference Include="..\MetasYProyectos.Domain\MetasYProyectos.Domain.csproj" />
-  </ItemGroup>
-
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <IsPackable>false</IsPackable>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.*" />
+    <PackageReference Include="xunit" Version="2.*" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.*" />
+    <PackageReference Include="Moq" Version="4.*" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MetasYProyectos.Application\MetasYProyectos.Application.csproj" />
+    <ProjectReference Include="..\MetasYProyectos.Domain\MetasYProyectos.Domain.csproj" />
+  </ItemGroup>
 
 </Project>

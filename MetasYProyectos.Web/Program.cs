@@ -2,6 +2,7 @@ using MetasYProyectos.Application;
 using MetasYProyectos.Infrastructure;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.DataProtection;
+using MetasYProyectos.Web.Autenticacion;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,6 +24,12 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
     {
         options.LoginPath = "/admin/login";
         options.AccessDeniedPath = "/admin/login";
+        options.ExpireTimeSpan = TimeSpan.FromHours(2);
+    })
+    .AddCookie(EsquemasAutenticacion.UsuarioOracle, options =>
+    {
+        options.LoginPath = "/Login";
+        options.AccessDeniedPath = "/Login";
         options.ExpireTimeSpan = TimeSpan.FromHours(2);
     });
 
