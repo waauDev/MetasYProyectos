@@ -15,7 +15,7 @@ namespace MetasYProyectos.Infrastructure.Autenticacion.Pasos
         public async Task<ResultadoValidacion> ValidarAsync(IDbConnection conexion, CredencialesLogin c, CancellationToken ct)
         {
             using var cmd = (OracleCommand)conexion.CreateCommand();
-            cmd.CommandText = "SELECT COUNT(*) FROM DBA_USERS WHERE USERNAME = :usuario";
+            cmd.CommandText = "SELECT COUNT(*) FROM ALL_USERS WHERE USERNAME = :usuario";
             cmd.Parameters.Add(new OracleParameter("usuario", c.Usuario.ToUpper()));
 
             var existe = Convert.ToInt32(await cmd.ExecuteScalarAsync(ct)) > 0;

@@ -11,7 +11,7 @@ namespace MetasYProyectos.Infrastructure.Autenticacion.Pasos
     public class ValidarPermisoStep : IPasoValidacionLogin
     {
         public int Orden => 6;
-        private const string CodAccionIngreso = "2000";
+        private const string CodAccionIngreso = "9800";
 
         public async Task<ResultadoValidacion> ValidarAsync(IDbConnection conexion, CredencialesLogin credenciales, CancellationToken ct)
         {
