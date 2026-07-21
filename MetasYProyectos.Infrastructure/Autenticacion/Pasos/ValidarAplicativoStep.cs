@@ -10,9 +10,9 @@ namespace MetasYProyectos.Infrastructure.Autenticacion.Pasos
 {
     public class ValidarAplicativoStep : IPasoValidacionLogin
     {
-        public int Orden => 2;
+        public int Orden => 4;
 
-        private const string NombreAplicativo = "METASPROYECTOS";
+        private const string NombreAplicativo = "METAS";
 
         public async Task<ResultadoValidacion> ValidarAsync(IDbConnection conexion, CredencialesLogin credenciales, CancellationToken ct)
         {

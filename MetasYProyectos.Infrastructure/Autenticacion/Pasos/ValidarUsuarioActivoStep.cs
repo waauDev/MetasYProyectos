@@ -8,9 +8,9 @@ using System.Text;
 
 namespace MetasYProyectos.Infrastructure.Autenticacion.Pasos
 {
-    internal class ValidarUsuarioActivoStep : IPasoValidacionLogin
+    public class ValidarUsuarioActivoStep : IPasoValidacionLogin
     {
-        public int Orden => 3;
+        public int Orden => 5;
 
         public async Task<ResultadoValidacion> ValidarAsync(IDbConnection conexion, CredencialesLogin credenciales, CancellationToken ct)
         {

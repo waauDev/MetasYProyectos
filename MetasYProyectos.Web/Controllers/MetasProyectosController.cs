@@ -1,12 +1,10 @@
-﻿using MetasYProyectos.Web.Services;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
+﻿using MetasYProyectos.Web.Autenticacion;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
 
 namespace MetasYProyectos.Web.Controllers
 {
-    
+    [Authorize(AuthenticationSchemes = EsquemasAutenticacion.UsuarioOracle)]
     public class MetasProyectosController : Controller
     {
         public IActionResult Index()
