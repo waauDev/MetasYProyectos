@@ -12,7 +12,7 @@ namespace MetasYProyectos.Infrastructure.Autenticacion.Pasos
     {
         public int Orden => 4;
 
-        private const string NombreAplicativo = "METAS";
+        private const string NombreAplicativo = "METASPROYECTOS";
 
         public async Task<ResultadoValidacion> ValidarAsync(IDbConnection conexion, CredencialesLogin credenciales, CancellationToken ct)
         {
