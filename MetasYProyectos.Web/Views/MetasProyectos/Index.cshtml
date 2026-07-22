@@ -2,9 +2,17 @@
     ViewData["Title"] = "Metas y Proyectos";
 }
 
-<div class="text-center mt-5">
-    <h2>Metas y Proyectos</h2>
-    <p class="lead">En construcción en cambio</p>
+<div class="page-heading">
+    <div class="page-pretitle">Módulo</div>
+    <h3 class="page-title">Metas y Proyectos</h3>
+</div>
 
-    <a asp-controller="Home" asp-action="Index" class="btn btn-link">&larr; Volver</a>
+<div class="card">
+    <div class="card-body text-center py-5">
+        <i class="ti ti-construction display-4 text-muted"></i>
+        <p class="mt-3 text-muted">En construcción</p>
+        <a asp-controller="Home" asp-action="Index" class="btn btn-link">
+            <i class="ti ti-arrow-left me-1"></i> Volver
+        </a>
+    </div>
 </div>
