@@ -10,146 +10,135 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>@ViewData["Title"] - Metas y Proyectos</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" />
+    <link rel="stylesheet" href="~/lib/tabler/dist/css/tabler.min.css" />
+    <link rel="stylesheet" href="~/lib/tabler/dist/css/tabler-icons.min.css" />
     <link rel="stylesheet" href="~/lib/toastify-js/toastify.min.css" />
     <style>
-            html, body {
-                height: 100%;
-                margin: 0;
+        html, body {
+            height: 100%;
+            margin: 0;
+        }
+
+        .split-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Panel izquierdo: marca */
+        .split-brand {
+            flex: 0 0 42%;
+            background: linear-gradient(160deg, #011C6B 0%, #0A2B8C 55%, #084298 100%);
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 3rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+            .split-brand::before {
+                content: "";
+                position: absolute;
+                width: 480px;
+                height: 480px;
+                border-radius: 50%;
+                background: rgba(255, 255, 255, 0.06);
+                top: -160px;
+                right: -160px;
             }
 
-            .split-container {
-                display: flex;
-                min-height: 100vh;
+            .split-brand::after {
+                content: "";
+                position: absolute;
+                width: 320px;
+                height: 320px;
+                border-radius: 50%;
+                background: rgba(255, 255, 255, 0.05);
+                bottom: -120px;
+                left: -100px;
             }
 
-            /* Panel izquierdo: marca */
-            .split-brand {
-                flex: 0 0 42%;
-                background: linear-gradient(160deg, #0d6efd 0%, #0a58ca 55%, #084298 100%);
-                color: #fff;
-                display: flex;
-                flex-direction: column;
-                justify-content: space-between;
-                padding: 3rem;
-                position: relative;
-                overflow: hidden;
-            }
+        .split-brand-content {
+            position: relative;
+            z-index: 1;
+        }
 
-                .split-brand::before {
-                    content: "";
-                    position: absolute;
-                    width: 480px;
-                    height: 480px;
-                    border-radius: 50%;
-                    background: rgba(255, 255, 255, 0.06);
-                    top: -160px;
-                    right: -160px;
-                }
+        .split-brand-icon {
+            width: 52px;
+            height: 52px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
 
-                .split-brand::after {
-                    content: "";
-                    position: absolute;
-                    width: 320px;
-                    height: 320px;
-                    border-radius: 50%;
-                    background: rgba(255, 255, 255, 0.05);
-                    bottom: -120px;
-                    left: -100px;
-                }
+        .split-brand h1 {
+            font-weight: 700;
+            font-size: 2.1rem;
+            line-height: 1.25;
+            margin-bottom: 1rem;
+        }
 
-            .split-brand-content {
-                position: relative;
-                z-index: 1;
-            }
+        .split-brand p {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.98rem;
+            max-width: 360px;
+        }
 
-            .split-brand-icon {
-                width: 52px;
-                height: 52px;
-                border-radius: 12px;
-                background: rgba(255, 255, 255, 0.15);
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                font-size: 1.5rem;
-                margin-bottom: 1.5rem;
-            }
+        .split-brand-footer {
+            position: relative;
+            z-index: 1;
+            font-size: 0.82rem;
+            color: rgba(255, 255, 255, 0.65);
+        }
 
-            .split-brand h1 {
+        /* Panel derecho: formulario */
+        .split-form {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f8f9fa;
+            padding: 2rem;
+        }
+
+        .split-form-card {
+            width: 100%;
+            max-width: 400px;
+        }
+
+            .split-form-card h2 {
                 font-weight: 700;
-                font-size: 2.1rem;
-                line-height: 1.25;
-                margin-bottom: 1rem;
+                margin-bottom: 0.25rem;
             }
 
-            .split-brand p {
-                color: rgba(255, 255, 255, 0.8);
-                font-size: 0.98rem;
-                max-width: 360px;
+            .split-form-card .subtitle {
+                color: #6c757d;
+                font-size: 0.92rem;
+                margin-bottom: 2rem;
             }
 
-            .split-brand-footer {
-                position: relative;
-                z-index: 1;
-                font-size: 0.82rem;
-                color: rgba(255, 255, 255, 0.65);
+        .form-label {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #344054;
+        }
+
+        .btn-login {
+            padding: 0.7rem;
+            border-radius: 8px;
+            font-weight: 600;
+        }
+
+        @@media (max-width: 900px) {
+            .split-brand {
+                display: none;
             }
-
-            /* Panel derecho: formulario */
-            .split-form {
-                flex: 1;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                background: #f8f9fa;
-                padding: 2rem;
-            }
-
-            .split-form-card {
-                width: 100%;
-                max-width: 400px;
-            }
-
-                .split-form-card h2 {
-                    font-weight: 700;
-                    margin-bottom: 0.25rem;
-                }
-
-                .split-form-card .subtitle {
-                    color: #6c757d;
-                    font-size: 0.92rem;
-                    margin-bottom: 2rem;
-                }
-
-            .form-label {
-                font-size: 0.85rem;
-                font-weight: 600;
-                color: #344054;
-            }
-
-            .form-control, .form-select {
-                padding: 0.65rem 0.85rem;
-                border-radius: 8px;
-                border: 1px solid #dee2e6;
-            }
-
-                .form-control:focus, .form-select:focus {
-                    border-color: #0d6efd;
-                    box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.15);
-                }
-
-            .btn-login {
-                padding: 0.7rem;
-                border-radius: 8px;
-                font-weight: 600;
-            }
-
-            @@media (max-width: 900px) {
-                .split-brand {
-                    display: none;
-                }
-            }
+        }
     </style>
 </head>
 <body>
@@ -160,7 +149,7 @@
         <div class="split-brand">
             <div class="split-brand-content">
                 <div class="split-brand-icon">
-                    <i class="bi bi-diagram-3"></i>
+                    <i class="ti ti-diagram-3"></i>
                 </div>
                 <h1>Metas y Proyectos</h1>
                 <p>Ingresa con tus credenciales y selecciona la base de datos y vigencia con la que vas a trabajar.</p>
@@ -191,7 +180,7 @@
                     <div class="mb-3">
                         <label class="form-label">Usuario</label>
                         <div class="input-group">
-                            <span class="input-group-text bg-white"><i class="bi bi-person"></i></span>
+                            <span class="input-group-text bg-white"><i class="ti ti-user"></i></span>
                             <input asp-for="Usuario" class="form-control" placeholder="Nombre de usuario" autofocus />
                         </div>
                     </div>
@@ -199,7 +188,7 @@
                     <div class="mb-3">
                         <label class="form-label">Contraseña</label>
                         <div class="input-group">
-                            <span class="input-group-text bg-white"><i class="bi bi-lock"></i></span>
+                            <span class="input-group-text bg-white"><i class="ti ti-lock"></i></span>
                             <input asp-for="Contrasena" type="password" class="form-control" placeholder="••••••••" />
                         </div>
                     </div>
