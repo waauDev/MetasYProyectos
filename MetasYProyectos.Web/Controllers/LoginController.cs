@@ -5,6 +5,7 @@ using MetasYProyectos.Domain.Autenticacion;
 using MetasYProyectos.Web.Autenticacion;
 using MetasYProyectos.Web.Models;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
@@ -26,11 +27,14 @@ namespace MetasYProyectos.Web.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            if (User.Identity?.IsAuthenticated == true)
+            if (User.Identity?.AuthenticationType == EsquemasAutenticacion.UsuarioOracle)
                 return RedirectToAction("Index", "Home");
 
             CargarBasesDeDatos();
-            return View(new LoginViewModel());
+            var vm = new LoginViewModel();
+            if (ViewBag.BasesDeDatos is List<string> { Count: 1 } bd)
+                vm.BaseDatos = bd[0];
+            return View(vm);
         }
 
         [HttpPost]
@@ -67,11 +71,11 @@ namespace MetasYProyectos.Web.Controllers
         }
 
         [HttpPost]
-        [Authorize(AuthenticationSchemes = EsquemasAutenticacion.UsuarioOracle)]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CerrarSesion()
         {
             await HttpContext.SignOutAsync(EsquemasAutenticacion.UsuarioOracle);
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return RedirectToAction(nameof(Index));
         }
 

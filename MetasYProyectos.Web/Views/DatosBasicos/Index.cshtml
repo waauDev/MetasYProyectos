@@ -1,0 +1,49 @@
+@{
+    ViewData["Title"] = "Datos básicos";
+}
+
+<div class="page-heading">
+    <div class="page-pretitle">Módulo</div>
+    <h3 class="page-title">Datos básicos</h3>
+</div>
+
+<div class="row row-cards">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex align-items-center">
+                    <div class="subheader-icon me-3">
+                        <i class="ti ti-calendar text-primary"></i>
+                    </div>
+                    <div>
+                        <div class="subheader text-muted">Parámetros</div>
+                        <h3 class="card-title mb-0">Período Administrativo</h3>
+                    </div>
+                </div>
+                <p class="text-muted mt-3">Gestiona los períodos administrativos del sistema.</p>
+                <a asp-controller="DatosBasicos" asp-action="Index" class="btn btn-primary">
+                    <i class="ti ti-arrow-right me-1"></i> Entrar
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex align-items-center">
+                    <div class="subheader-icon me-3">
+                        <i class="ti ti-ruler text-primary"></i>
+                    </div>
+                    <div>
+                        <div class="subheader text-muted">Configuración</div>
+                        <h3 class="card-title mb-0">Unidades de Medida</h3>
+                    </div>
+                </div>
+                <p class="text-muted mt-3">Administra las unidades de medida disponibles.</p>
+                <a asp-controller="DatosBasicos" asp-action="Index" class="btn btn-primary">
+                    <i class="ti ti-arrow-right me-1"></i> Entrar
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

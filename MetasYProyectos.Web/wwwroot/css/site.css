@@ -172,3 +172,69 @@ body {
 .font-display {
     font-family: 'Inter', system-ui, sans-serif;
 }
+
+/* ── Sidebar collapse ────────────────────────────────────── */
+
+.navbar-vertical.collapsed {
+    width: 56px !important;
+}
+
+.navbar-vertical.collapsed .container-fluid {
+    padding: 0 !important;
+}
+
+.navbar-vertical.collapsed .navbar-brand-autodark {
+    padding: .5rem;
+    width: 100%;
+    text-align: center;
+}
+
+.navbar-vertical.collapsed .brand-link {
+    justify-content: center;
+}
+
+.navbar-vertical.collapsed .brand-link span:not(.brand-dot) {
+    display: none;
+}
+
+.navbar-vertical.collapsed .navbar-nav {
+    padding: 0 !important;
+}
+
+.navbar-vertical.collapsed .nav-item {
+    width: 100%;
+}
+
+.navbar-vertical.collapsed .nav-link {
+    justify-content: center;
+    padding: .65rem 0;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.navbar-vertical.collapsed .nav-link-icon {
+    margin: 0 !important;
+}
+
+.navbar-vertical.collapsed .nav-link-title,
+.navbar-vertical.collapsed .nav-link-toggle,
+.navbar-vertical.collapsed .collapse:not(.navbar-collapse),
+.navbar-vertical.collapsed .navbar-toggler,
+.navbar-vertical.collapsed .sidebar-toggle .nav-link-title {
+    display: none !important;
+}
+
+.navbar-vertical.collapsed .sidebar-toggle {
+    text-align: center;
+}
+
+.page-wrapper {
+    margin-left: 220px;
+    transition: margin-left .3s ease;
+}
+
+@media (min-width: 768px) {
+    .navbar-vertical.collapsed + .page-wrapper {
+        margin-left: 56px !important;
+    }
+}

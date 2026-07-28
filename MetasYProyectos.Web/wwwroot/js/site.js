@@ -24,3 +24,23 @@ var MostrarNotificacion = function (mensaje, tipo) {
         if (val && val.value) MostrarNotificacion(val.value, tipos[i]);
     }
 })();
+
+// ponytail: sidebar collapse toggle
+(function () {
+    var sidebar = document.querySelector('.navbar-vertical');
+    var toggle = document.querySelector('.sidebar-toggle');
+    var icon = toggle && toggle.querySelector('.sidebar-toggle-icon');
+    if (!sidebar || !toggle) return;
+    // restore saved state
+    if (localStorage.getItem('sidebar-collapsed') === 'true') {
+        sidebar.classList.add('collapsed');
+        if (icon) icon.className = 'ti ti-chevron-right sidebar-toggle-icon';
+    }
+    toggle.addEventListener('click', function () {
+        var collapsed = sidebar.classList.toggle('collapsed');
+        if (icon) icon.className = collapsed
+            ? 'ti ti-chevron-right sidebar-toggle-icon'
+            : 'ti ti-chevron-left sidebar-toggle-icon';
+        localStorage.setItem('sidebar-collapsed', collapsed);
+    });
+})();
