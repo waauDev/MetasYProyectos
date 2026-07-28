@@ -29,30 +29,49 @@
                 <div class="collapse navbar-collapse" id="sidebar-menu">
                     <ul class="navbar-nav pt-lg-3">
                         <li class="nav-item @(ViewContext.RouteData.Values["controller"]?.ToString() == "Home" ? "active" : "")">
-                            <a class="nav-link" href="/">
+                            <a class="nav-link" href="/" title="Inicio">
                                 <span class="nav-link-icon">
                                     <i class="ti ti-home"></i>
                                 </span>
                                 <span class="nav-link-title">Inicio</span>
                             </a>
                         </li>
-                        <li class="nav-item @(ViewContext.RouteData.Values["controller"]?.ToString() == "Configuracion" ? "active" : "")">
-                            <a class="nav-link" href="/Configuracion">
-                                <span class="nav-link-icon">
-                                    <i class="ti ti-database"></i>
-                                </span>
-                                <span class="nav-link-title">Configuración</span>
-                            </a>
-                        </li>
-                        <li class="nav-item @(ViewContext.RouteData.Values["controller"]?.ToString() == "MetasProyectos" ? "active" : "")">
-                            <a class="nav-link" href="/MetasProyectos">
+
+                        @{
+                            var mostrarSubmenu = ViewContext.RouteData.Values["controller"]?.ToString() is "MetasProyectos" or "DatosBasicos";
+                        }
+                        <li class="nav-item @(mostrarSubmenu ? "active" : "")">
+                            <a class="nav-link" href="#navbar-modulos" data-bs-toggle="collapse" role="button" aria-expanded="@mostrarSubmenu.ToString().ToLower()" title="Módulos">
                                 <span class="nav-link-icon">
                                     <i class="ti ti-target-arrow"></i>
                                 </span>
                                 <span class="nav-link-title">Metas y Proyectos</span>
+                                <span class="nav-link-toggle"></span>
                             </a>
+                            <div class="collapse @(mostrarSubmenu ? "show" : "")" id="navbar-modulos">
+                                <ul class="nav nav-sm flex-column">
+                                    <li class="nav-item">
+                                        <a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "MetasProyectos" ? "active" : "")" href="/MetasProyectos">
+                                            <span class="nav-link-title">Metas y Proyectos</span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "DatosBasicos" ? "active" : "")" href="/DatosBasicos">
+                                            <span class="nav-link-title">Datos básicos</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
                         </li>
                     </ul>
+                    <div class="mt-auto text-center py-3">
+                        <a class="nav-link sidebar-toggle" href="#" onclick="return false;" title="Colapsar menú">
+                            <span class="nav-link-icon">
+                                <i class="ti ti-chevron-left sidebar-toggle-icon"></i>
+                            </span>
+                            <span class="nav-link-title sidebar-toggle-title">Colapsar</span>
+                        </a>
+                    </div>
                 </div>
             </div>
         </aside>
@@ -60,8 +79,23 @@
         <div class="page-wrapper">
             <div class="page-header d-print-none">
                 <div class="container-xl">
-                    <div class="page-pretitle">Metas y Proyectos</div>
-                    <h2 class="page-title">@ViewData["Title"]</h2>
+                    <div class="row align-items-center">
+                        <div class="col">
+                            <div class="page-pretitle">Metas y Proyectos</div>
+                            <h2 class="page-title mb-0">@ViewData["Title"]</h2>
+                        </div>
+                        @if (User.Identity?.IsAuthenticated == true)
+                        {
+                            <div class="col-auto">
+                                <form asp-controller="Login" asp-action="CerrarSesion" method="post" class="d-inline">
+                                    @Html.AntiForgeryToken()
+                                    <button type="submit" class="btn btn-outline-dark btn-sm">
+                                        <i class="ti ti-logout me-1"></i> Cerrar sesión
+                                    </button>
+                                </form>
+                            </div>
+                        }
+                    </div>
                 </div>
             </div>
 
@@ -82,18 +116,6 @@
             <footer class="footer footer-transparent d-print-none">
                 <div class="container-xl">
                     <div class="row text-center align-items-center flex-row-reverse">
-                        <div class="col-lg-auto ms-lg-auto">
-                            <ul class="list-inline list-inline-dots mb-0">
-                                <li class="list-inline-item">
-                                    <form asp-controller="Login" asp-action="CerrarSesion" method="post" class="d-inline">
-                                        @Html.AntiForgeryToken()
-                                        <button type="submit" class="btn btn-link btn-sm text-decoration-none">
-                                            <i class="ti ti-logout me-1"></i> Cerrar sesión
-                                        </button>
-                                    </form>
-                                </li>
-                            </ul>
-                        </div>
                         <div class="col-12 col-lg-auto mt-3 mt-lg-0">
                             <ul class="list-inline list-inline-dots mb-0">
                                 <li class="list-inline-item">
