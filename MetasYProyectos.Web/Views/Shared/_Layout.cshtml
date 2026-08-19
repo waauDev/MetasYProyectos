@@ -38,26 +38,139 @@
                         </li>
 
                         @{
-                            var mostrarSubmenu = ViewContext.RouteData.Values["controller"]?.ToString() is "MetasProyectos" or "DatosBasicos";
+                            var areaActual = ViewContext.RouteData.Values["area"]?.ToString();
+                            var controladorActual = ViewContext.RouteData.Values["controller"]?.ToString();
                         }
-                        <li class="nav-item @(mostrarSubmenu ? "active" : "")">
-                            <a class="nav-link" href="#navbar-modulos" data-bs-toggle="collapse" role="button" aria-expanded="@mostrarSubmenu.ToString().ToLower()" title="Módulos">
+
+                        @{ var mostrarMetasYProyectos = areaActual == "MetasYProyectos"; }
+                        <li class="nav-item @(mostrarMetasYProyectos ? "active" : "")">
+                            <a class="nav-link" href="#navbar-metas-y-proyectos" data-bs-toggle="collapse" role="button" aria-expanded="@mostrarMetasYProyectos.ToString().ToLower()" title="Metas y Proyectos">
                                 <span class="nav-link-icon">
                                     <i class="ti ti-target-arrow"></i>
                                 </span>
                                 <span class="nav-link-title">Metas y Proyectos</span>
                                 <span class="nav-link-toggle"></span>
                             </a>
-                            <div class="collapse @(mostrarSubmenu ? "show" : "")" id="navbar-modulos">
+                            <div class="collapse @(mostrarMetasYProyectos ? "show" : "")" id="navbar-metas-y-proyectos">
                                 <ul class="nav nav-sm flex-column">
                                     <li class="nav-item">
-                                        <a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "MetasProyectos" ? "active" : "")" href="/MetasProyectos">
-                                            <span class="nav-link-title">Metas y Proyectos</span>
+                                        <a class="nav-link @(mostrarMetasYProyectos && controladorActual == "PlanDesarrollo" ? "active" : "")" asp-area="MetasYProyectos" asp-controller="PlanDesarrollo" asp-action="Index">
+                                            <span class="nav-link-title">Plan Desarrollo</span>
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "DatosBasicos" ? "active" : "")" href="/DatosBasicos">
-                                            <span class="nav-link-title">Datos básicos</span>
+                                        <a class="nav-link @(mostrarMetasYProyectos && controladorActual == "Metas" ? "active" : "")" asp-area="MetasYProyectos" asp-controller="Metas" asp-action="Index">
+                                            <span class="nav-link-title">Metas</span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link @(mostrarMetasYProyectos && controladorActual == "Proyectos" ? "active" : "")" asp-area="MetasYProyectos" asp-controller="Proyectos" asp-action="Index">
+                                            <span class="nav-link-title">Proyectos</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+
+                        @{ var mostrarProcesos = areaActual == "Procesos"; }
+                        <li class="nav-item @(mostrarProcesos ? "active" : "")">
+                            <a class="nav-link" href="#navbar-procesos" data-bs-toggle="collapse" role="button" aria-expanded="@mostrarProcesos.ToString().ToLower()" title="Procesos">
+                                <span class="nav-link-icon">
+                                    <i class="ti ti-list-check"></i>
+                                </span>
+                                <span class="nav-link-title">Procesos</span>
+                                <span class="nav-link-toggle"></span>
+                            </a>
+                            <div class="collapse @(mostrarProcesos ? "show" : "")" id="navbar-procesos">
+                                <ul class="nav nav-sm flex-column">
+                                    <li class="nav-item">
+                                        <a class="nav-link @(mostrarProcesos && controladorActual == "EjecucionProyectos" ? "active" : "")" asp-area="Procesos" asp-controller="EjecucionProyectos" asp-action="Index">
+                                            <span class="nav-link-title">Ejecución de Proyectos</span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link @(mostrarProcesos && controladorActual == "ProcesosPresupuestales" ? "active" : "")" asp-area="Procesos" asp-controller="ProcesosPresupuestales" asp-action="Index">
+                                            <span class="nav-link-title">Procesos Presupuestales</span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link @(mostrarProcesos && controladorActual == "ProcesosContractuales" ? "active" : "")" asp-area="Procesos" asp-controller="ProcesosContractuales" asp-action="Index">
+                                            <span class="nav-link-title">Procesos Contractuales</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+
+                        @{ var mostrarReportes = areaActual == "Reportes"; }
+                        <li class="nav-item @(mostrarReportes ? "active" : "")">
+                            <a class="nav-link" href="#navbar-reportes" data-bs-toggle="collapse" role="button" aria-expanded="@mostrarReportes.ToString().ToLower()" title="Reportes">
+                                <span class="nav-link-icon">
+                                    <i class="ti ti-report"></i>
+                                </span>
+                                <span class="nav-link-title">Reportes</span>
+                                <span class="nav-link-toggle"></span>
+                            </a>
+                            <div class="collapse @(mostrarReportes ? "show" : "")" id="navbar-reportes">
+                                <ul class="nav nav-sm flex-column">
+                                    <li class="nav-item">
+                                        <a class="nav-link @(mostrarReportes && controladorActual == "PlanDesarrollo" ? "active" : "")" asp-area="Reportes" asp-controller="PlanDesarrollo" asp-action="Index">
+                                            <span class="nav-link-title">Plan desarrollo</span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link @(mostrarReportes && controladorActual == "MetasYProyectos" ? "active" : "")" asp-area="Reportes" asp-controller="MetasYProyectos" asp-action="Index">
+                                            <span class="nav-link-title">Metas y proyectos</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+
+                        @{ var mostrarConsultas = areaActual == "Consultas"; }
+                        <li class="nav-item @(mostrarConsultas ? "active" : "")">
+                            <a class="nav-link" href="#navbar-consultas" data-bs-toggle="collapse" role="button" aria-expanded="@mostrarConsultas.ToString().ToLower()" title="Consultas">
+                                <span class="nav-link-icon">
+                                    <i class="ti ti-search"></i>
+                                </span>
+                                <span class="nav-link-title">Consultas</span>
+                                <span class="nav-link-toggle"></span>
+                            </a>
+                            <div class="collapse @(mostrarConsultas ? "show" : "")" id="navbar-consultas">
+                                <ul class="nav nav-sm flex-column">
+                                    <li class="nav-item">
+                                        <a class="nav-link @(mostrarConsultas && controladorActual == "ProcesosContractuales" ? "active" : "")" asp-area="Consultas" asp-controller="ProcesosContractuales" asp-action="Index">
+                                            <span class="nav-link-title">Procesos Contractuales</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+
+                        @{ var mostrarDatosBasicos = areaActual == "DatosBasicos"; }
+                        <li class="nav-item @(mostrarDatosBasicos ? "active" : "")">
+                            <a class="nav-link" href="#navbar-datos-basicos" data-bs-toggle="collapse" role="button" aria-expanded="@mostrarDatosBasicos.ToString().ToLower()" title="Datos Básicos">
+                                <span class="nav-link-icon">
+                                    <i class="ti ti-database"></i>
+                                </span>
+                                <span class="nav-link-title">Datos Básicos</span>
+                                <span class="nav-link-toggle"></span>
+                            </a>
+                            <div class="collapse @(mostrarDatosBasicos ? "show" : "")" id="navbar-datos-basicos">
+                                <ul class="nav nav-sm flex-column">
+                                    <li class="nav-item">
+                                        <a class="nav-link @(mostrarDatosBasicos && controladorActual == "DatosBasicos" ? "active" : "")" asp-area="DatosBasicos" asp-controller="DatosBasicos" asp-action="Index">
+                                            <span class="nav-link-title">Datos Básicos</span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link @(mostrarDatosBasicos && controladorActual == "PeriodosAdministrativos" ? "active" : "")" asp-area="DatosBasicos" asp-controller="PeriodosAdministrativos" asp-action="Index">
+                                            <span class="nav-link-title">Periodos Administrativos</span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link @(mostrarDatosBasicos && controladorActual == "UnidadesMedida" ? "active" : "")" asp-area="DatosBasicos" asp-controller="UnidadesMedida" asp-action="Index">
+                                            <span class="nav-link-title">Unidades de Medida</span>
                                         </a>
                                     </li>
                                 </ul>

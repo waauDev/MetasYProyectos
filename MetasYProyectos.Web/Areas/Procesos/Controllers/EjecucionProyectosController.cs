@@ -1,17 +1,16 @@
-﻿using MetasYProyectos.Web.Autenticacion;
+using MetasYProyectos.Web.Autenticacion;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace MetasYProyectos.Web.Controllers
+namespace MetasYProyectos.Web.Areas.Procesos.Controllers
 {
+    [Area("Procesos")]
     [Authorize(AuthenticationSchemes = EsquemasAutenticacion.UsuarioOracle)]
-    public class MetasProyectosController : Controller
+    public class EjecucionProyectosController : Controller
     {
         public IActionResult Index()
         {
             return View();
         }
     }
-
-    
 }
