@@ -75,7 +75,6 @@ namespace MetasYProyectos.Web.Controllers
         public async Task<IActionResult> CerrarSesion()
         {
             await HttpContext.SignOutAsync(EsquemasAutenticacion.UsuarioOracle);
-            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return RedirectToAction(nameof(Index));
         }
 

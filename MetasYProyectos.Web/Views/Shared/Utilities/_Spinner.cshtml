@@ -1,0 +1,11 @@
+@* Spinner reutilizable: el texto se puede ajustar con ViewData["SpinnerTexto"]. *@
+@{
+    var texto = ViewData["SpinnerTexto"] as string ?? "Cargando...";
+    var tamano = ViewData["SpinnerTamano"] as string ?? "2rem";
+}
+<div class="spinner-overlay" id="spinner-overlay" style="display:none;" aria-live="polite" aria-busy="true">
+    <div class="spinner-contenido">
+        <i class="ti ti-loader" style="font-size:@tamano;"></i>
+        <p class="spinner-texto">@texto</p>
+    </div>
+</div>
