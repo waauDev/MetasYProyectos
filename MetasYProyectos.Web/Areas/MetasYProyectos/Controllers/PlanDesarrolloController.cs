@@ -2,10 +2,11 @@ using MetasYProyectos.Web.Autenticacion;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace MetasYProyectos.Web.Controllers
+namespace MetasYProyectos.Web.Areas.MetasYProyectos.Controllers
 {
+    [Area("MetasYProyectos")]
     [Authorize(AuthenticationSchemes = EsquemasAutenticacion.UsuarioOracle)]
-    public class DatosBasicosController : Controller
+    public class PlanDesarrolloController : Controller
     {
         public IActionResult Index()
         {
