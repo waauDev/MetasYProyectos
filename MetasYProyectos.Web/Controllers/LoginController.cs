@@ -7,6 +7,7 @@ using MetasYProyectos.Web.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
@@ -17,11 +18,16 @@ namespace MetasYProyectos.Web.Controllers
     {
         private readonly IConfiguracionService _configuracionService;
         private readonly IMediator _mediator;
+        private readonly IDataProtector _protector;
 
-        public LoginController(IConfiguracionService configuracionService, IMediator mediator)
+        public LoginController(
+            IConfiguracionService configuracionService,
+            IMediator mediator,
+            IDataProtectionProvider dataProtectionProvider)
         {
             _configuracionService = configuracionService;
             _mediator = mediator;
+            _protector = dataProtectionProvider.CreateProtector(EsquemasAutenticacion.PropositoProteccionSesion);
         }
 
         [HttpGet]
@@ -61,8 +67,9 @@ namespace MetasYProyectos.Web.Controllers
             var claims = new List<Claim>
             {
                 new(ClaimTypes.Name, credenciales.Usuario),
-                new("BaseDatos", credenciales.BaseDatos),
-                new("Vigencia", credenciales.vigencia)
+                new(EsquemasAutenticacion.ClaimBaseDatos, credenciales.BaseDatos),
+                new(EsquemasAutenticacion.ClaimVigencia, credenciales.vigencia),
+                new(EsquemasAutenticacion.ClaimPasswordCifrado, _protector.Protect(credenciales.password))
             };
             var identidad = new ClaimsIdentity(claims, EsquemasAutenticacion.UsuarioOracle);
             await HttpContext.SignInAsync(EsquemasAutenticacion.UsuarioOracle, new ClaimsPrincipal(identidad));

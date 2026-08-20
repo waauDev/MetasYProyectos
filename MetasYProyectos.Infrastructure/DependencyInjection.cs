@@ -8,6 +8,7 @@ using MetasYProyectos.Infrastructure.Persistence;
 using MetasYProyectos.Infrastructure.Services;
 using Microsoft.Extensions.DependencyInjection;
 
+
 namespace MetasYProyectos.Infrastructure
 {
     public static  class DependencyInjection
@@ -26,6 +27,10 @@ namespace MetasYProyectos.Infrastructure
             services.AddScoped<IOracleConnectionFactory, OracleConnectionFactory>();
 
             services.AddScoped<IConfiguracionService, ConfiguracionService>();
+
+            services.AddScoped<IValidadorPermisoAccion, ValidadorPermisoAccion>();
+            services.AddScoped<IPeriodoAdministrativoRepository, PeriodoAdministrativoRepository>();
+            services.AddScoped<INitRepository, NitRepository>();
 
             return services;
         }

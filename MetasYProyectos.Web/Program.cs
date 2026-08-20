@@ -1,12 +1,16 @@
 using MetasYProyectos.Application;
+using MetasYProyectos.Application.Autenticacion;
 using MetasYProyectos.Infrastructure;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.DataProtection;
 using MetasYProyectos.Web.Autenticacion;
+using MetasYProyectos.Web.Servicios;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddScoped<IConexionUsuarioActual, ConexionUsuarioActualService>();
 builder.Services.AddApplication();
 
 var keysFolder = Path.Combine(builder.Environment.ContentRootPath, "DataProtection-Keys");
